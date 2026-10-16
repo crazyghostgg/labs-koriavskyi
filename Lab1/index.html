@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Лаб. 1 · Варіант 4 · Корявський В. А.</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="shell">
+    <aside id="rail">
+        <div class="brand">
+            <h1>Лінійні перетворення</h1>
+            <p>Лабораторна робота №1 · варіант 4<br>Корявський Всеволод Андрійович</p>
+        </div>
+
+        <details open>
+            <summary>Сцена</summary>
+            <div class="body">
+                <div id="f_ppc"></div>
+                <label class="tick"><input type="checkbox" id="optLabels" checked> позначки вершин</label>
+                <label class="tick"><input type="checkbox" id="optAxial" checked> осьові лінії</label>
+                <button id="btnDefault" type="button" class="ghost">Фігура за замовчуванням</button>
+            </div>
+        </details>
+
+        <details open>
+            <summary>Розміри деталі</summary>
+            <div class="body" id="f_part"></div>
+        </details>
+
+        <details open>
+            <summary>Евклідові перетворення</summary>
+            <div class="body">
+                <div class="pair">
+                    <span class="cap">Опорна точка (перетягніть маркер на сцені)</span>
+                    <div id="f_pivot"></div>
+                </div>
+                <span class="cap">Зсув</span>
+                <div id="f_shift"></div>
+                <span class="cap">Обертання навколо опорної точки</span>
+                <div id="f_rot"></div>
+            </div>
+        </details>
+
+        <details open>
+            <summary>Афінні перетворення</summary>
+            <div class="body">
+                <label class="tick"><input type="checkbox" id="optMirror"> симетрія відносно опорної точки</label>
+                <span class="cap">Масштабування відносно опорної точки</span>
+                <div id="f_scale"></div>
+            </div>
+        </details>
+
+        <details open>
+            <summary>Система координат</summary>
+            <div class="body">
+                <div class="seg" id="csSeg">
+                    <button data-cs="std" class="on" type="button">Звичайна</button>
+                    <button data-cs="aff" type="button">Афінна</button>
+                    <button data-cs="prj" type="button">Проективна</button>
+                </div>
+                <div id="boxAff" hidden>
+                    <div class="matrixForm" id="f_aff"></div>
+                    <button type="button" class="primary" data-apply="aff">Apply</button>
+                </div>
+                <div id="boxPrj" hidden>
+                    <div class="matrixForm" id="f_prj"></div>
+                    <button type="button" class="primary" data-apply="prj">Apply</button>
+                </div>
+            </div>
+        </details>
+
+        <button id="btnReset" type="button" class="danger">Скинути всі перетворення</button>
+    </aside>
+
+    <main id="work">
+        <div id="svgWrap">
+            <svg id="scene" xmlns="http://www.w3.org/2000/svg">
+                <g id="gGrid"></g>
+                <g id="gPart"></g>
+                <g id="gMarks"></g>
+                <g id="gText"></g>
+            </svg>
+            <div id="tip" hidden></div>
+        </div>
+        <footer id="info">
+            <div><b>T<sub>деталі</sub></b><pre id="mPart"></pre></div>
+            <div><b>T<sub>координат</sub></b><pre id="mCs"></pre></div>
+            <div id="hud">курсор: –</div>
+        </footer>
+    </main>
+</div>
+<script src="script.js"></script>
+</body>
+</html>

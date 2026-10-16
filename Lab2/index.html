@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Лаб. 2 · Варіант 4 · Трисектриса Лоншама</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="shell">
+    <aside id="rail">
+        <div class="brand">
+            <h1>Трисектриса Лоншама</h1>
+            <p class="eq">r = a / cos 3φ &nbsp;·&nbsp; x(x² − 3y²) = a(x² + y²)</p>
+            <p>Лабораторна робота №2 · варіант 4<br>Корявський Всеволод Андрійович</p>
+        </div>
+
+        <details open>
+            <summary>Параметр кривої</summary>
+            <div class="body">
+                <div class="fld"><span class="n">a, см</span><input type="number" id="a" min="0.5" max="6" step="0.05" value="2"><input type="range" id="aR" min="0.5" max="6" step="0.05" value="2"></div>
+                <div class="fld"><span class="n">Масштаб, px/см</span><input type="number" id="sc" min="10" max="90" step="1" value="40"><input type="range" id="scR" min="10" max="90" step="1" value="40"></div>
+                <button id="btnDefault" type="button" class="ghost">Значення за замовчуванням</button>
+            </div>
+        </details>
+
+        <details open>
+            <summary>Анімація</summary>
+            <div class="body">
+                <label class="tick"><input type="checkbox" id="anA" checked> змінювати a (синусоїда 1…4)</label>
+                <label class="tick"><input type="checkbox" id="anR"> обертати криву навколо O</label>
+                <label class="tick"><input type="checkbox" id="anM" checked> рухати точку M уздовж гілки</label>
+                <div class="fld"><span class="n">Швидкість</span><span></span><input type="range" id="anV" min="1" max="10" value="4"></div>
+                <button id="btnAnim" type="button" class="primary">▶ Запустити</button>
+            </div>
+        </details>
+
+        <details open>
+            <summary>Точка M</summary>
+            <div class="body">
+                <div class="stepper">
+                    <button id="pPrev" type="button">« попередня</button><button id="pNext" type="button">наступна »</button>
+                </div>
+                <div class="fld"><span class="n">φ, °</span><input type="number" id="phi" step="0.5" value="12"><input type="range" id="phiR" min="-29.5" max="149.5" step="0.1" value="12"></div>
+                <label class="tick"><input type="checkbox" id="vTan" checked> дотична</label>
+                <label class="tick"><input type="checkbox" id="vNor" checked> нормаль</label>
+                <label class="tick"><input type="checkbox" id="vAsy" checked> асимптоти</label>
+                <label class="tick"><input type="checkbox" id="vCirc"> коло кривини</label>
+            </div>
+        </details>
+
+        <details>
+            <summary>Евклідові перетворення</summary>
+            <div class="body">
+                <span class="cap">Зсув кривої</span>
+                <div class="duo"><div class="fld"><span class="n">X</span><input type="number" id="shx" step="0.5" value="0"></div>
+                    <div class="fld"><span class="n">Y</span><input type="number" id="shy" step="0.5" value="0"></div></div>
+                <span class="cap">Обертання навколо точки</span>
+                <div class="duo"><div class="fld"><span class="n">x</span><input type="number" id="rx" step="0.5" value="0"></div>
+                    <div class="fld"><span class="n">y</span><input type="number" id="ry" step="0.5" value="0"></div></div>
+                <div class="fld"><span class="n">Кут, °</span><input type="number" id="ra" step="1" value="0"><input type="range" id="raR" min="-180" max="180" value="0"></div>
+                <button id="btnReset" type="button" class="danger">Скинути перетворення</button>
+            </div>
+        </details>
+    </aside>
+
+    <main id="work">
+        <div id="svgWrap"><svg id="scene" xmlns="http://www.w3.org/2000/svg"></svg></div>
+        <section id="dock">
+            <nav id="dockTabs"><button data-d="res" class="on" type="button">Обчислення</button><button data-d="tab" type="button">Таблиця ⟨φ, точка⟩</button></nav>
+            <div id="dRes" class="dpane"></div>
+            <div id="dTab" class="dpane" hidden><table id="tbl"><thead><tr><th>№</th><th>φ, °</th><th>x</th><th>y</th><th>x′ після T</th><th>y′ після T</th></tr></thead><tbody></tbody></table></div>
+        </section>
+    </main>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
