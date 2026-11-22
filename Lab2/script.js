@@ -248,8 +248,8 @@ const app = {
         }
         // маркер M — у екранних координатах, щоб радіус не залежав від масштабу
         const s = scene.toScreen(m.p);
-        scene.mk('circle', { cx: s[0], cy: s[1], r: 6, fill: '#f59e0b', stroke: '#fff', 'stroke-width': 2 }, scene.ui);
-        scene.text('M', s[0] + 10, s[1] - 9, 'mk');
+        scene.mk('circle', { cx: s[0], cy: s[1], r: 6, fill: '#0891b2', stroke: '#fff', 'stroke-width': 2 }, scene.ui);
+        scene.text('M', s[0] + 10, s[1] - 9, 'mkM');
         if (state.rot.a) { const q = scene.toScreen([state.rot.x, state.rot.y]); scene.mk('path', { d: `M${q[0] - 9} ${q[1]}H${q[0] + 9}M${q[0]} ${q[1] - 9}V${q[1] + 9}`, stroke: '#d1435b', 'stroke-width': 1.4 }, scene.ui); }
     },
 
