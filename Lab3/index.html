@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Лаб. 3 · Варіант 4 · Скакалка — криві 2-го порядку в інженерному вигляді</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="shell">
+    <aside id="rail">
+        <div class="brand">
+            <h1>Контур №27 «Скакалка»</h1>
+            <p class="eq">r(t) = [(1−t)²A + 2w·t(1−t)·C + t²B] / [(1−t)² + 2w·t(1−t) + t²], &nbsp;w = f / (1 − f)</p>
+            <p>Лабораторна робота №3 · варіант 4 · метод №3<br>Корявський Всеволод Андрійович</p>
+        </div>
+
+        <details open>
+            <summary>Відображення</summary>
+            <div class="body">
+                <label class="tick"><input type="checkbox" id="vPoly" checked> характеристичні трикутники A–C–B <kbd>P</kbd></label>
+                <label class="tick"><input type="checkbox" id="vKnots" checked> вузли A та вершини C</label>
+                <label class="tick"><input type="checkbox" id="vShoulder" checked> плечова точка D і медіана вибраної дуги</label>
+                <label class="tick"><input type="checkbox" id="vKind"> колір дуги за типом кривої</label>
+                <label class="tick"><input type="checkbox" id="vGrid" checked> сітка та осі</label>
+                <div class="legend"><span class="lg el">еліпс f &lt; ½</span><span class="lg pa">парабола f = ½</span><span class="lg hy">гіпербола f &gt; ½</span></div>
+            </div>
+        </details>
+
+        <details open>
+            <summary>Дискримінант f вибраної дуги</summary>
+            <div class="body">
+                <div class="cap" id="selCap">—</div>
+                <div class="fld"><span class="n">f</span><input type="number" id="f" min="0.02" max="0.98" step="0.005"><input type="range" id="fR" min="0.02" max="0.98" step="0.005"></div>
+                <div class="trio">
+                    <button type="button" data-f="0.35">еліпс</button><button type="button" data-f="0.5">парабола</button><button type="button" data-f="0.65">гіпербола</button>
+                </div>
+                <div class="stepper"><button id="sPrev" type="button">« попередня</button><button id="sNext" type="button">наступна »</button></div>
+                <button id="btnAllF" type="button" class="ghost">Встановити це f усім дугам ділянки</button>
+                <p class="tip">D ділить медіану CM так, що f = |MD| / |MC|. Перетягніть зелену точку C, чорний вузол A або помаранчеву точку D на полотні.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>Евклідові перетворення</summary>
+            <div class="body">
+                <span class="cap">Зсув контуру</span>
+                <div class="duo"><div class="fld"><span class="n">X</span><input type="number" id="shx" step="0.5" value="0"></div>
+                    <div class="fld"><span class="n">Y</span><input type="number" id="shy" step="0.5" value="0"></div></div>
+                <span class="cap">Обертання навколо точки P</span>
+                <div class="duo"><div class="fld"><span class="n">x</span><input type="number" id="rx" step="0.5" value="0"></div>
+                    <div class="fld"><span class="n">y</span><input type="number" id="ry" step="0.5" value="0"></div></div>
+                <div class="fld"><span class="n">Кут, °</span><input type="number" id="ra" step="1" value="0"><input type="range" id="raR" min="-180" max="180" value="0"></div>
+                <span class="cap">Осьова симетрія</span>
+                <label class="tick"><input type="checkbox" id="refl"> відобразити відносно прямої через P</label>
+                <div class="fld"><span class="n">Нахил прямої ψ, °</span><input type="number" id="rpsi" step="5" value="90"><input type="range" id="rpsiR" min="0" max="180" step="5" value="90"></div>
+                <button id="btnReset" type="button" class="danger">Скинути перетворення</button>
+            </div>
+        </details>
+
+        <details>
+            <summary>Контур</summary>
+            <div class="body">
+                <button id="btnDefault" type="button" class="ghost">Контур за замовчуванням</button>
+                <button id="btnFit" type="button">Вписати у вікно</button>
+                <div class="duo"><button id="btnSave" type="button">Зберегти JSON</button><label class="filebtn">Відкрити JSON<input type="file" id="fileIn" accept=".json"></label></div>
+            </div>
+        </details>
+    </aside>
+
+    <main id="work">
+        <div id="svgWrap">
+            <svg id="scene" xmlns="http://www.w3.org/2000/svg"></svg>
+            <div id="readout"></div>
+        </div>
+        <section id="dock">
+            <nav id="dockTabs">
+                <button data-d="tbl" class="on" type="button">Таблиця параметрів дуг</button>
+                <button data-d="arc" type="button">Вибрана дуга</button>
+                <button data-d="anim" type="button">Анімація переходу</button>
+            </nav>
+            <div id="dTbl" class="dpane"><table id="tbl"><thead><tr><th>№</th><th>Ділянка</th><th>A</th><th>C (вершина)</th><th>B</th><th>f</th><th>w</th><th>Тип</th><th>Довжина</th></tr></thead><tbody></tbody></table></div>
+            <div id="dArc" class="dpane" hidden></div>
+            <div id="dAnim" class="dpane" hidden>
+                <div class="animgrid">
+                    <div class="stat">
+                        <small>Цільова фігура</small>
+                        <select id="target"><option value="hearts">Серця (шнур → велике серце)</option><option value="circles">Кола</option><option value="tri">Трикутники</option></select>
+                        <p>Вузли A, вершини C та дискримінанти f кожної дуги інтерполюються до відповідних параметрів цільової фігури.</p>
+                    </div>
+                    <div class="stat">
+                        <small>Хід переходу τ</small>
+                        <b id="pOut">0.000</b>
+                        <input type="range" id="pR" min="0" max="1" step="0.001" value="0">
+                        <div class="duo"><button id="btnPlay" type="button" class="primary">▶ Відтворити</button><button id="btnBack" type="button">⟲ На початок</button></div>
+                    </div>
+                    <div class="stat">
+                        <small>Параметри відтворення</small>
+                        <div class="fld"><span class="n">Тривалість, с</span><input type="number" id="dur" min="1" max="20" step="0.5" value="4"></div>
+                        <label class="tick"><input type="checkbox" id="pingpong" checked> туди й назад (циклічно)</label>
+                        <label class="tick"><input type="checkbox" id="ghost"> показати цільову фігуру</label>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+<script src="contour27.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
